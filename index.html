@@ -194,12 +194,12 @@
   </script>
 
   <!-- Add PDF.js library before your closing </body> tag -->
-  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.2.67/build/pdf.min.js"></script>
+  <script src="https://unpkg.com/pdfjs-dist@4.2.67/build/pdf.min.js"></script>
   <script>
     function renderPDF(pdfUrl, containerId) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.2.67/build/pdf.worker.min.js';
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@4.2.67/build/pdf.worker.min.js';
       pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
         // Render each page in order
         const renderPage = pageNum => {
