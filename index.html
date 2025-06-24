@@ -194,14 +194,15 @@
   </script>
 
   <!-- Add PDF.js library before your closing </body> tag -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.2.67/build/pdf.min.js"></script>
   <script>
     function renderPDF(pdfUrl, containerId) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.2.67/pdf.worker.min.js';
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.2.67/build/pdf.worker.min.js';
       pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        // Render each page in order
+        const renderPage = pageNum => {
           pdf.getPage(pageNum).then(function(page) {
             var canvas = document.createElement('canvas');
             canvas.style.display = 'block';
@@ -211,9 +212,14 @@
             canvas.height = viewport.height;
             canvas.width = viewport.width;
             container.appendChild(canvas);
-            page.render({canvasContext: context, viewport: viewport});
+            page.render({canvasContext: context, viewport: viewport}).promise.then(function() {
+              if (pageNum < pdf.numPages) renderPage(pageNum + 1);
+            });
           });
-        }
+        };
+        renderPage(1);
+      }).catch(function(error) {
+        container.innerHTML = '<div style="color:red;">PDF konnte nicht geladen werden: ' + error.message + '</div>';
       });
     }
 
