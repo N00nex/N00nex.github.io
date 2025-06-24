@@ -223,14 +223,14 @@
 
       document.getElementById('lebenslaufCollapse').addEventListener('show.bs.collapse', function () {
         if (!lebenslaufRendered) {
-          renderPDF('./Lebenslauf_Stefano_Milone - Kopie.pdf', 'pdf-lebenslauf-container');
+          renderPDF('Lebenslauf_Stefano_Milone - Kopie.pdf', 'pdf-lebenslauf-container');
           lebenslaufRendered = true;
         }
       });
 
       document.getElementById('modulnotenCollapse').addEventListener('show.bs.collapse', function () {
         if (!modulnotenRendered) {
-          renderPDF('./Modulnotenübersicht.pdf', 'pdf-modulnoten-container');
+          renderPDF('Modulnotenübersicht.pdf', 'pdf-modulnoten-container');
           modulnotenRendered = true;
         }
       });
