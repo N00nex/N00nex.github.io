@@ -80,20 +80,31 @@
       </button>
 
       <div class="collapse" id="lebenslaufCollapse">
-        <div id="pdf-lebenslauf-container" style="width:100%; min-height:500px; background:#222; border:1px solid #444; overflow-x:auto;"></div>
+        <iframe 
+          src="./Lebenslauf_Stefano_Milone - Kopie.pdf" 
+          width="100%" 
+          height="500px" 
+          style="border: 1px solid #444;">
+        </iframe>
       </div>
     </section>
+
 
     <section class="section-box" data-aos="fade-up">
-      <h2>Modulnoten</h2>
-      <button class="btn btn-outline-primary mb-3" data-bs-toggle="collapse" data-bs-target="#modulnotenCollapse">
-        Modulnoten anzeigen
-      </button>
+  <h2>Modulnoten</h2>
+  <button class="btn btn-outline-primary mb-3" data-bs-toggle="collapse" data-bs-target="#modulnotenCollapse">
+    Modulnoten anzeigen
+  </button>
 
-      <div class="collapse" id="modulnotenCollapse">
-        <div id="pdf-modulnoten-container" style="width:100%; min-height:500px; background:#222; border:1px solid #444; overflow-x:auto;"></div>
-      </div>
-    </section>
+  <div class="collapse" id="modulnotenCollapse">
+    <iframe 
+      src="./Modulnotenübersicht.pdf" 
+      width="100%" 
+      height="500px" 
+      style="border: 1px solid #444;">
+    </iframe>
+  </div>
+</section>
 
 
     <section class="section-box" data-aos="fade-up">
@@ -191,56 +202,6 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({ duration: 1000, once: true });
-  </script>
-
-  <!-- Place this just before your custom script, only once! -->
-  <script src="https://unpkg.com/pdfjs-dist@4.2.67/build/pdf.min.js"></script>
-  <script>
-    function renderPDF(pdfUrl, containerId) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = '';
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@4.2.67/build/pdf.worker.min.js';
-      pdfjsLib.getDocument(pdfUrl).promise.then(function(pdf) {
-        // Render each page in order
-        const renderPage = pageNum => {
-          pdf.getPage(pageNum).then(function(page) {
-            var canvas = document.createElement('canvas');
-            canvas.style.display = 'block';
-            canvas.style.margin = '0 auto 20px auto';
-            var context = canvas.getContext('2d');
-            var viewport = page.getViewport({ scale: 1.2 });
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-            container.appendChild(canvas);
-            page.render({canvasContext: context, viewport: viewport}).promise.then(function() {
-              if (pageNum < pdf.numPages) renderPage(pageNum + 1);
-            });
-          });
-        };
-        renderPage(1);
-      }).catch(function(error) {
-        container.innerHTML = '<div style="color:red;">PDF konnte nicht geladen werden: ' + error.message + '</div>';
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-      let lebenslaufRendered = false;
-      let modulnotenRendered = false;
-
-      document.getElementById('lebenslaufCollapse').addEventListener('show.bs.collapse', function () {
-        if (!lebenslaufRendered) {
-          renderPDF('Lebenslauf_Stefano_Milone - Kopie.pdf', 'pdf-lebenslauf-container');
-          lebenslaufRendered = true;
-        }
-      });
-
-      document.getElementById('modulnotenCollapse').addEventListener('show.bs.collapse', function () {
-        if (!modulnotenRendered) {
-          renderPDF('Modulnotenübersicht.pdf', 'pdf-modulnoten-container');
-          modulnotenRendered = true;
-        }
-      });
-    });
   </script>
 </body>
 </html>
